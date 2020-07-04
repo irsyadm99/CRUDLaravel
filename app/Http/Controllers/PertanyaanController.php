@@ -19,10 +19,27 @@ class PertanyaanController extends Controller
 
     public function store(Request $req){
         $data = $req->all();
-        unset($data["_token"]);
         $item = questionModel::save($data);
-        if($item){
-            return "success";
-        }
+        return \redirect('/pertanyaan');
+    }
+
+    public function show($id){
+        $items = questionModel::show_detail($id);
+        return view('pertanyaan.detail', \compact('items'));
+    }
+
+    public function destroy($id){
+        $items = questionModel::destroy($id);
+        return \redirect('/pertanyaan');
+    }
+
+    public function edit($id){
+        $items = questionModel::show_edit($id);
+        return view('pertanyaan.edit', \compact('items'));
+    }
+
+    public function update($id, Request $req){
+        $items = questionModel::update($id, $req->all());
+        return \redirect('/pertanyaan');
     }
 }
